@@ -8,33 +8,37 @@
         body { 
             margin: 0; 
             padding: 0; 
-            font-family: Arial, sans-serif; 
-            /* HÌNH NỀN CHO TOÀN BỘ GIAO DIỆN BÊN NGOÀI */
-            background-image: url("https://www.mof.gov.vn/api/mediafile/media-system/ff16d46a-56cb-409b-83e1-d392f376c80f.png");
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #ffffff; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         
-        /* BANNER */
-        .banner-container {
+        /* BANNER PHÍA TRÊN - SỬ DỤNG HÌNH NỀN BANNER CỦA BẠN */
+        .header-banner {
             width: 100%;
-            background: #fff;
+            height: 150px; /* Điều chỉnh chiều cao phù hợp với banner */
+            background-image: url("https://www.mof.gov.vn/api/mediafile/media-system/ff16d46a-56cb-409b-83e1-d392f376c80f.png");
+            background-size: cover;
+            background-position: center;
             display: flex;
-            justify-content: center;
-            border-bottom: 3px solid #00569d;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            align-items: center;
+            position: relative;
+            border-bottom: 4px solid #ffca28;
         }
-        .banner-container img {
-            width: 100%;
-            max-width: 1350px; /* Đảm bảo logo không bị che mất */
-            height: auto;
-            display: block;
+
+        /* CHÈN LOGO VÀO BÊN TRÁI PHẦN MÀU XANH */
+        .header-logo {
+            height: 110px; /* Kích thước logo cân đối */
+            width: auto;
+            margin-left: 50px; /* Đẩy logo vào vị trí trống bên trái */
+            z-index: 10;
         }
 
         .navbar { 
             background-color: #0066b3; 
-            padding: 10px 0; 
+            padding: 12px 0; 
             display: flex; 
             justify-content: center; 
             gap: 5px;
@@ -42,66 +46,71 @@
         .navbar a { 
             color: white; 
             text-decoration: none; 
-            font-size: 13px; 
+            font-size: 14px; 
             font-weight: bold; 
-            padding: 8px 20px; 
+            padding: 8px 25px; 
             text-transform: uppercase; 
             border-right: 1px solid rgba(255,255,255,0.3); 
         }
         .navbar a:last-child { border: none; }
-        .navbar a:hover { background: rgba(255,255,255,0.1); }
+        .navbar a:hover { background: rgba(255,255,255,0.2); }
 
-        /* KHU VỰC TÌM KIẾM */
+        /* KHU VỰC TÌM KIẾM (KHUNG XANH GAVI) */
+        .search-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
         .search-wrapper {
-            max-width: 900px;
-            margin: 40px auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 1000px;
+            background: #004a80; 
+            padding: 60px 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             text-align: center;
         }
-        .search-box { display: flex; justify-content: center; gap: 0; margin-bottom: 15px; }
+        .search-box { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 20px; 
+        }
         .search-box input { 
-            width: 450px; 
-            padding: 15px; 
-            border: 2px solid #0066b3; 
-            border-radius: 6px 0 0 6px; 
+            width: 70%; 
+            padding: 20px; 
+            border: none;
+            border-radius: 8px 0 0 8px; 
             outline: none; 
-            font-size: 18px; 
+            font-size: 20px; 
         }
         .search-box button { 
-            background: #004a80; 
+            background: #002e50; 
             color: white; 
             border: none; 
-            padding: 0 40px; 
+            padding: 0 50px; 
             cursor: pointer; 
             font-weight: bold; 
-            border-radius: 0 6px 6px 0; 
-            font-size: 16px;
+            border-radius: 0 8px 8px 0; 
+            font-size: 18px;
             transition: 0.3s;
+            text-transform: uppercase;
         }
-        .search-box button:hover { background: #00335c; }
-        .search-desc { font-size: 14px; color: #555; }
+        .search-box button:hover { background: #001a2e; }
+        .search-desc { font-size: 16px; color: #e0e0e0; font-style: italic; }
 
-        /* VÙNG KẾT QUẢ CÓ HÌNH NỀN GỐC (HOA VĂN) */
+        /* VÙNG KẾT QUẢ */
         #resultArea { 
             max-width: 1100px; 
-            margin: 20px auto; 
+            margin: 20px auto 100px auto; 
             display: none; 
             padding: 30px; 
-            border-radius: 8px;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.9);
-            /* ĐỊA CHỈ HÌNH NỀN HOA VĂN CHO PHẦN THÔNG TIN */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), 
-                              url('https://static.wixstatic.com/media/cf9344_73e0e529b30d4d06ba5a3bf40db49ede~mv2.png/v1/fill/w_900,h_651,al_c,q_90,enc_avif,quality_auto/cf9344_73e0e529b30d4d06ba5a3bf40db49ede~mv2.png');
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 0 25px rgba(0,0,0,0.2);
+            background: #fff;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
+            border-radius: 8px;
         }
-
         .header-info { 
             display: flex; 
             justify-content: space-between; 
@@ -110,47 +119,48 @@
             border-bottom: 2px solid #0066b3;
             line-height: 1.8;
         }
-        
-        .main-table { width: 100%; border-collapse: collapse; background: transparent; }
+        .main-table { width: 100%; border-collapse: collapse; }
         .main-table td { border: 1px solid #c1d3e2; padding: 15px; font-size: 15px; }
-        
-        /* Cố định mảng màu xanh theo ảnh mẫu */
-        .label-cell { 
-            background-color: #0066b3 !important; 
-            color: white !important; 
-            font-weight: bold; 
-            width: 20%; 
-        }
-        .content-cell { 
-            font-weight: bold; 
-            color: #000; 
-            background-color: rgba(240, 247, 255, 0.7); 
-        }
-        .header-blue-row { 
-            background-color: #0066b3 !important; 
-            color: white !important; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-        }
-        
-        .note-area { height: 160px; vertical-align: top; }
+        .label-cell { background-color: #0066b3 !important; color: white !important; font-weight: bold; width: 25%; }
+        .content-cell { font-weight: bold; color: #000; background-color: #f9f9f9; }
+        .header-blue-row { background-color: #0066b3 !important; color: white !important; font-weight: bold; text-transform: uppercase; }
         .status-red { color: #d32f2f !important; font-weight: bold; }
-        
+
+        /* FOOTER SÁT ĐÁY */
         .footer { 
-            background-color: #004a80; 
+            background-color: #00569d; 
             color: white; 
-            padding: 30px; 
-            text-align: center; 
-            font-size: 14px; 
-            margin-top: 50px; 
-            border-top: 4px solid #ffca28;
+            padding: 40px 10%; 
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 30px;
+            border-top: 5px solid #ffca28;
+            margin-top: auto;
         }
+        .footer-logo-circle {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .footer-logo-circle img {
+            width: 90%;
+            height: auto;
+        }
+        .footer-info { text-align: left; line-height: 1.6; }
+        .footer-info p { margin: 5px 0; }
     </style>
 </head>
 <body>
 
-<div class="banner-container">
-    <img src="https://www.mof.gov.vn/api/mediafile/media-system/ff16d46a-56cb-409b-83e1-d392f376c80f.png" alt="Cổng thông tin điện tử Bộ Tài Chính">
+<div class="header-banner">
+    <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" class="header-logo" alt="Logo Bộ Tài Chính">
 </div>
 
 <div class="navbar">
@@ -161,12 +171,14 @@
     <a href="#">LIÊN HỆ</a>
 </div>
 
-<div class="search-wrapper">
-    <div class="search-box">
-        <input type="text" id="phoneInput" placeholder="Nhập số điện thoại tra cứu hồ sơ...">
-        <button onclick="searchFromSheets()">TÌM KIẾM</button>
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-box">
+            <input type="text" id="phoneInput" placeholder="Nhập số điện thoại tra cứu hồ sơ...">
+            <button onclick="searchFromSheets()">TÌM KIẾM</button>
+        </div>
+        <div class="search-desc">Hệ thống tra cứu thông tin xét duyệt hồ sơ chính thức của Bộ Tài Chính.</div>
     </div>
-    <div class="search-desc">Vui lòng nhập chính xác số điện thoại đã đăng ký để kiểm tra tình trạng xét duyệt hồ sơ.</div>
 </div>
 
 <div id="resultArea">
@@ -202,7 +214,7 @@
         </tr>
         <tr>
             <td class="label-cell">Nội dung yêu cầu :</td>
-            <td colspan="3" class="content-cell note-area" id="resNote">---</td>
+            <td colspan="3" class="content-cell" id="resNote" style="height:100px; vertical-align:top;">---</td>
         </tr>
         <tr>
             <td class="label-cell">TỔNG TIỀN GIẢI NGÂN</td>
@@ -218,8 +230,14 @@
 </div>
 
 <div class="footer">
-    <p><strong>CÔNG THÔNG TIN ĐIỆN TỬ BỘ TÀI CHÍNH</strong></p>
-    <p>Địa chỉ: Số 28 Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội</p>
+    <div class="footer-logo-circle">
+        <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" alt="Logo">
+    </div>
+    <div class="footer-info">
+        <p><strong>CỔNG THÔNG TIN ĐIỆN TỬ BỘ TÀI CHÍNH</strong></p>
+        <p>Địa chỉ: Số 28 Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội</p>
+        <p>Điện thoại: (024) 2220.2828 | Cơ quan chủ quản: Bộ Tài chính</p>
+    </div>
 </div>
 
 <script>
@@ -234,7 +252,6 @@
             const csvText = await resp.text();
             const rows = csvText.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim()));
 
-            // Tìm kiếm tại cột A (index 0)
             const data = rows.find(r => r[0] === inputVal);
 
             if(data) {
@@ -244,22 +261,21 @@
                     return new Intl.NumberFormat('vi-VN').format(num) + " VND";
                 };
 
-                // Gán dữ liệu đúng thứ tự A-M (0-12)
-                document.getElementById('resPhone').innerText   = data[0];       // A
-                document.getElementById('resNameTop').innerText  = data[1];       // B
-                document.getElementById('resNameMain').innerText = data[1];       // B
-                document.getElementById('resMoneyProc').innerText= formatVND(data[2]); // C
-                document.getElementById('resTotal').innerText     = formatVND(data[3]); // D
-                document.getElementById('resCodeTop').innerText  = data[4];       // E
-                document.getElementById('resSTK').innerText      = data[5];       // F
-                document.getElementById('resBank').innerText     = data[6];       // G
-                document.getElementById('resNote').innerText     = data[7];       // H
-                document.getElementById('resStatusTop').innerText= data[8];       // I
-                document.getElementById('resStatusBottom').innerText = data[8];    // I
-                document.getElementById('resSigner').innerText   = data[9];       // J
-                document.getElementById('resDatePub').innerText  = data[10];      // K
-                document.getElementById('resDateEff').innerText  = data[11];      // L
-                document.getElementById('resDonVi').innerText    = data[12];      // M
+                document.getElementById('resPhone').innerText   = data[0];
+                document.getElementById('resNameTop').innerText  = data[1];
+                document.getElementById('resNameMain').innerText = data[1];
+                document.getElementById('resMoneyProc').innerText= formatVND(data[2]);
+                document.getElementById('resTotal').innerText     = formatVND(data[3]);
+                document.getElementById('resCodeTop').innerText  = data[4];
+                document.getElementById('resSTK').innerText      = data[5];
+                document.getElementById('resBank').innerText     = data[6];
+                document.getElementById('resNote').innerText     = data[7];
+                document.getElementById('resStatusTop').innerText= data[8];
+                document.getElementById('resStatusBottom').innerText = data[8];
+                document.getElementById('resSigner').innerText   = data[9];
+                document.getElementById('resDatePub').innerText  = data[10];
+                document.getElementById('resDateEff').innerText  = data[11];
+                document.getElementById('resDonVi').innerText    = data[12];
 
                 document.getElementById('resultArea').style.display = 'block';
                 window.scrollTo({ top: document.getElementById('resultArea').offsetTop - 20, behavior: 'smooth' });
