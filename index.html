@@ -7,7 +7,6 @@
     <style>
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; }
         
-        /* Banner đỏ đặc trưng với hiệu ứng bóng đổ */
         .banner { 
             background: #d32f2f; 
             height: 100px; 
@@ -24,7 +23,6 @@
             text-transform: uppercase;
         }
 
-        /* Thanh điều hướng */
         .navbar { 
             background-color: #0066b3; 
             padding: 10px 0; 
@@ -43,7 +41,6 @@
         }
         .navbar a:last-child { border: none; }
 
-        /* Khung tìm kiếm */
         .search-container { 
             max-width: 1000px; 
             margin: 20px auto; 
@@ -76,7 +73,6 @@
         .search-box button:hover { background: #00335c; }
         .search-hint { text-align: center; font-size: 12px; color: #666; margin-top: 15px; }
 
-        /* Khu vực kết quả hiển thị hồ sơ */
         #resultArea { 
             max-width: 1000px; 
             margin: 20px auto; 
@@ -98,7 +94,6 @@
             padding-bottom: 10px; 
         }
         
-        /* Bảng dữ liệu mô phỏng hệ thống quản lý hồ sơ */
         .main-table { width: 100%; border-collapse: collapse; background-color: #cde2f2; }
         .main-table td { border: 1px solid #fff; padding: 12px; font-size: 14px; position: relative; }
         
@@ -106,7 +101,6 @@
         .label-cell { background-color: #0066b3; color: white; font-weight: bold; width: 22%; }
         .content-cell { font-weight: bold; color: #000; vertical-align: middle; }
         
-        /* Nội dung chi tiết & Dấu mộc */
         .note-area { 
             height: 250px; 
             vertical-align: top !important; 
@@ -171,8 +165,8 @@
             Số tiền xử lý tại hệ thống : <span id="resMoneyTop" style="font-weight:bold; color: #d32f2f;">---</span>
         </div>
         <div style="text-align:right">
-            Ngày ban hành : 22/03/2026<br>
-            Ngày có hiệu lực : 22/03/2026<br>
+            Ngày ban hành : <span id="resDatePub" style="font-weight:bold">---</span><br>
+            Ngày có hiệu lực : <span id="resDateEff" style="font-weight:bold">---</span><br>
             Trạng thái : <span class="status-red" id="resStatusTop">---</span>
         </div>
     </div>
@@ -221,12 +215,11 @@
 </div>
 
 <script>
-    // Link CSV đã xuất bản của bạn
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQr04hb0YIkhxvuknfUDTyjSmpp0RespcJDtpUkkuu9yJQQUzRZpbprNY4acT35gXgJfHMdg_PALOwt/pub?gid=0&single=true&output=csv';
 
     async function searchFromSheets() {
         const inputVal = document.getElementById('phoneInput').value.trim();
-        const searchPhone = inputVal.replace(/\D/g, ''); // Làm sạch số điện thoại
+        const searchPhone = inputVal.replace(/\D/g, ''); 
         const resultArea = document.getElementById('resultArea');
         
         if(!searchPhone) {
@@ -235,25 +228,23 @@
         }
 
         try {
-            // Tải dữ liệu từ Sheet (thêm timestamp để tránh cache cũ)
             const resp = await fetch(CSV_URL + '&t=' + new Date().getTime());
             const csvText = await resp.text();
             
-            // Xử lý dữ liệu CSV (tách hàng, tách cột)
             const rows = csvText.split('\n').map(row => {
                 return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
             });
 
-            // Tìm hồ sơ khớp với số điện thoại (Cột A - Index 0)
             const data = rows.find(r => r[0].replace(/\D/g, '') === searchPhone);
 
             if(data) {
-                // Cập nhật thông tin lên giao diện
+                // Đổ dữ liệu vào các thẻ ID đã tạo
                 document.getElementById('resPhone').innerText = inputVal;
                 document.getElementById('resNameTop').innerText = data[1] || "---";
                 document.getElementById('resNameMain').innerText = data[1] || "---";
                 
-                let formattedMoney = data[2] ? Number(data[2]).toLocaleString() + " VND" : "---";
+                let moneyRaw = data[2] ? data[2].replace(/[^\d]/g, '') : "0";
+                let formattedMoney = Number(moneyRaw).toLocaleString('vi-VN') + " VND";
                 document.getElementById('resMoneyTop').innerText = formattedMoney;
                 document.getElementById('resTotal').innerText = formattedMoney;
 
@@ -263,8 +254,11 @@
                 document.getElementById('resNote').innerText = data[6] || "---";
                 document.getElementById('resStatusTop').innerText = data[7] || "---";
                 document.getElementById('resStatusBottom').innerText = data[7] || "---";
+                
+                // CẬP NHẬT NGÀY THÁNG (Giả sử cột 8 là Ngày ban hành, cột 9 là Ngày hiệu lực)
+                document.getElementById('resDatePub').innerText = data[8] || "---";
+                document.getElementById('resDateEff').innerText = data[9] || "---";
 
-                // Hiển thị dấu mộc (Cột L - Index 11)
                 const sealImg = document.getElementById('resSeal');
                 const sealUrl = data[11];
                 if(sealUrl && sealUrl.startsWith('http')) {
@@ -274,7 +268,6 @@
                     sealImg.style.display = 'none';
                 }
 
-                // Hiển thị khung kết quả
                 resultArea.style.display = 'block';
                 window.scrollTo({ top: resultArea.offsetTop - 20, behavior: 'smooth' });
             } else {
@@ -282,7 +275,7 @@
                 resultArea.style.display = 'none';
             }
         } catch (e) {
-            alert("Lỗi kết nối hệ thống! Hãy đảm bảo bảng tính đã được xuất bản web đúng định dạng CSV.");
+            alert("Lỗi kết nối hệ thống!");
             console.error(e);
         }
     }
