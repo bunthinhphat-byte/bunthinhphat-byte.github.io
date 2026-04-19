@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Thông Tin Điện Tử Bộ Tài Chính - Tra Cứu Hồ Sơ Chính Thức</title>
+    
+    <style>
+        /* ============================================================
+           PHẦN 1: CẤU TRÚC CƠ BẢN VÀ RESET CSS
+           ============================================================ */
+        * {
+            box-sizing: border-box;
+        }
+
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #ffffff; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* ============================================================
+           PHẦN 2: HEADER BANNER VÀ LOGO
+           ============================================================ */
+        .header-banner {
+            width: 100%;
+            height: 160px;
+            background-image: url("https://www.mof.gov.vn/api/mediafile/media-system/ff16d46a-56cb-409b-83e1-d392f376c80f.png");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 4px solid #ffca28;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-logo {
+            height: 120px;
+            margin-left: 60px;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* ============================================================
+           PHẦN 3: THANH ĐIỀU HƯỚNG (NAVBAR)
+           ============================================================ */
+        .navbar { 
+            background-color: #0066b3; 
+            padding: 15px 0; 
+            display: flex; 
+            justify-content: center; 
+            gap: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .navbar a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 15px; 
+            font-weight: bold; 
+            padding: 10px 35px; 
+            text-transform: uppercase; 
+            border-right: 1px solid rgba(255,255,255,0.3);
+            transition: background 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #00569d;
+        }
+
+        .navbar a:last-child { 
+            border: none; 
+        }
+
+        /* ============================================================
+           PHẦN 4: KHUNG TÌM KIẾM HỒ SƠ
+           ============================================================ */
+        .search-container {
+            padding: 70px 20px;
+            display: flex;
+            justify-content: center;
+            background-color: #ffffff;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            max-width: 1150px; 
+            background: linear-gradient(135deg, #004a80 0%, #003366 100%); 
+            padding: 90px 60px; 
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .search-box { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 30px; 
+        }
+
+        .search-box input { 
+            width: 70%; 
+            padding: 25px 35px; 
+            border: none;
+            border-radius: 12px 0 0 12px; 
+            outline: none; 
+            font-size: 24px; 
+            font-weight: 500;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box button { 
+            background-color: #002e50; 
+            color: white; 
+            border: none; 
+            padding: 0 65px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            border-radius: 0 12px 12px 0; 
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background-color: #001f36;
+        }
+
+        .search-desc { 
+            font-size: 18px; 
+            color: #f0f0f0; 
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        /* ============================================================
+           PHẦN 5: VÙNG HIỂN THỊ KẾT QUẢ & QUỐC HUY CHÌM
+           ============================================================ */
+        #resultArea { 
+            max-width: 1150px; 
+            margin: 0 auto 100px auto; 
+            display: none; 
+            padding: 60px; 
+            position: relative;
+            background-color: #ffffff;
+            
+            /* Tối ưu Quốc huy chìm rõ nét hơn (độ mờ 0.75 thay vì 0.88) */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)), 
+                              url("https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Emblem_of_Vietnam.svg/800px-Emblem_of_Vietnam.svg.png");
+            background-size: 600px;
+            background-repeat: no-repeat;
+            background-position: center 60%;
+            
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+            border: 1px solid #e1e8ed;
+            border-radius: 18px;
+        }
+
+        .header-info { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 35px; 
+            padding-bottom: 25px;
+            border-bottom: 4px solid #0066b3;
+            font-size: 20px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* ============================================================
+           PHẦN 6: CẤU TRÚC BẢNG DỮ LIỆU & TỰ CO GIÃN NỘI DUNG
+           ============================================================ */
+        .main-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            position: relative; 
+            z-index: 5;
+            table-layout: fixed; /* Ép bảng không phình ngang */
+        }
+
+        .main-table td { 
+            border: 1px solid #c1d3e2; 
+            padding: 22px; 
+            font-size: 18px; 
+            vertical-align: top;
+        } 
+        
+        .label-cell { 
+            background-color: #0066b3 !important; 
+            color: white !important; 
+            font-weight: bold; 
+            width: 25%; 
+        }
+
+        .content-cell { 
+            font-weight: bold; 
+            color: #000000; 
+            background-color: rgba(255, 255, 255, 0.3); /* Để lộ Quốc huy bên dưới */
+            
+            /* TỐI ƯU TỰ ĐỘNG XUỐNG DÒNG VÀ CO GIÃN */
+            word-wrap: break-word; 
+            overflow-wrap: break-word; 
+            word-break: break-word; 
+            white-space: pre-line;
+            line-height: 1.6;
+            height: auto;
+        }
+
+        .header-blue-row { 
+            background-color: #0066b3 !important; 
+            color: white !important; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        .status-red { 
+            color: #d32f2f !important; 
+            font-weight: bold; 
+        }
+
+        /* ============================================================
+           PHẦN 7: FOOTER HỆ THỐNG
+           ============================================================ */
+        .footer { 
+            background-color: #00569d; 
+            color: white; 
+            padding: 60px 10%; 
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            border-top: 6px solid #ffca28;
+            margin-top: auto;
+        }
+
+        .footer-logo-circle {
+            width: 150px; 
+            height: 150px;
+            background: #ffffff; 
+            border-radius: 50%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .footer-logo-circle img { 
+            width: 85%; 
+            height: auto; 
+        }
+
+        .footer-info { 
+            font-size: 17px; 
+            line-height: 2; 
+        }
+
+        /* ============================================================
+           PHẦN 8: ĐIỀU CHỈNH RESPONSIVE CHO DI ĐỘNG (MOBILE)
+           ============================================================ */
+        @media (max-width: 768px) {
+            .header-banner { 
+                height: 110px; 
+            }
+            
+            .header-logo { 
+                height: 80px; 
+                margin-left: 20px; 
+            }
+            
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .navbar a { 
+                padding: 10px 15px; 
+                font-size: 13px; 
+                border: none; 
+            }
+
+            .search-wrapper { 
+                padding: 50px 25px; 
+                margin: 0 10px;
+            }
+
+            .search-box {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .search-box input { 
+                width: 100%; 
+                border-radius: 10px; 
+                font-size: 18px; 
+                padding: 18px; 
+            }
+
+            .search-box button { 
+                width: 100%; 
+                padding: 18px; 
+                border-radius: 10px; 
+                font-size: 20px; 
+            }
+
+            #resultArea { 
+                margin: 15px; 
+                padding: 25px; 
+                background-size: 350px; 
+            }
+
+            .header-info { 
+                flex-direction: column; 
+                font-size: 16px; 
+                text-align: left;
+            }
+
+            /* Chuyển bảng thành dạng danh sách thẻ trên mobile */
+            .main-table {
+                table-layout: auto;
+            }
+
+            .main-table tr { 
+                display: flex; 
+                flex-direction: column;
+                border-bottom: 1px solid #c1d3e2; 
+            }
+
+            .main-table td { 
+                display: block; 
+                border: none; 
+                width: 100% !important; 
+                padding: 12px 15px;
+            }
+
+            .label-cell { 
+                background-color: #f4f8fb !important; 
+                color: #0066b3 !important; 
+                padding-bottom: 0;
+                font-size: 14px;
+                text-transform: uppercase;
+            }
+
+            .content-cell { 
+                padding-top: 5px;
+                padding-bottom: 15px;
+                font-size: 17px; 
+            }
+
+            #resTotal { 
+                font-size: 30px !important; 
+            }
+
+            .footer { 
+                flex-direction: column; 
+                text-align: center; 
+                padding: 40px 20px;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" class="header-logo" alt="Logo Bộ Tài Chính">
+    </div>
+
+    <div class="navbar">
+        <a href="#">Trang Chủ</a>
+        <a href="#">Giới Thiệu</a>
+        <a href="#">Dịch Vụ Công</a>
+        <a href="#">Tra Cứu Hồ Sơ</a>
+        <a href="#">Liên Hệ</a>
+    </div>
+
+    <div class="search-container">
+        <div class="search-wrapper">
+            <div class="search-box">
+                <input type="text" id="phoneInput" placeholder="Nhập số điện thoại để tra cứu hồ sơ...">
+                <button onclick="searchFromSheets()">Tìm Kiếm</button>
+            </div>
+            <div class="search-desc">
+                Cổng tra cứu thông tin phê duyệt giải ngân chính thức - Bộ Tài Chính Việt Nam
+            </div>
+        </div>
+    </div>
+
+    <div id="resultArea">
+        <div class="header-info">
+            <div id="leftInfo">
+                Mã hồ sơ: <span id="resCodeTop" style="color: #0066b3; font-weight: bold;">---</span><br>
+                Họ và tên: <span id="resNameTop" style="font-weight: bold; text-transform: uppercase;">---</span>
+            </div>
+            <div id="rightInfo" style="text-align:right">
+                Ngày ban hành: <span id="resDatePub" style="font-weight: bold;">---</span><br>
+                Trạng thái: <span class="status-red" id="resStatusTop">---</span>
+            </div>
+        </div>
+
+        <table class="main-table">
+            <tr class="header-blue-row">
+                <td colspan="4" style="color: white; padding: 15px; text-align: center;">Thông Tin Chi Tiết Kết Quả Phê Duyệt</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Số điện thoại:</td>
+                <td class="content-cell" id="resPhone">---</td>
+                <td class="label-cell">Số tài khoản:</td>
+                <td class="content-cell" id="resSTK">---</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Ngân hàng:</td>
+                <td class="content-cell" id="resBank">---</td>
+                <td class="label-cell">Đơn vị treo:</td>
+                <td class="content-cell" id="resDonVi">---</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Nội dung yêu cầu:</td>
+                <td colspan="3" class="content-cell" id="resNote">---</td>
+            </tr>
+            <tr>
+                <td class="label-cell" style="vertical-align: middle;">Tổng tiền giải ngân:</td>
+                <td colspan="3" class="content-cell" id="resTotal" style="font-size: 38px; color: #d32f2f; padding: 30px 20px;">---</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Cán bộ phê duyệt:</td>
+                <td class="content-cell" id="resSigner">---</td>
+                <td class="label-cell">Trạng thái cuối:</td>
+                <td class="content-cell status-red" id="resStatusBottom">---</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <div class="footer-logo-circle">
+            <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" alt="Bộ Tài Chính">
+        </div>
+        <div class="footer-info">
+            <strong>CỔNG THÔNG TIN ĐIỆN TỬ BỘ TÀI CHÍNH (MOF)</strong><br>
+            Địa chỉ: Số 28 Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội<br>
+            Điện thoại: (024) 2220.2828 | Fax: (024) 2220.8091<br>
+            Email: hỗ trợ tra cứu trực tuyến chính thức.
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           PHẦN 9: XỬ LÝ DỮ LIỆU GOOGLE SHEETS (JAVASCRIPT)
+           ============================================================ */
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQr04hb0YIkhxvuknfUDTyjSmpp0RespcJDtpUkkuu9yJQQUzRZpbprNY4acT35gXgJfHMdg_PALOwt/pub?gid=0&single=true&output=csv';
+
+        async function searchFromSheets() {
+            const inputVal = document.getElementById('phoneInput').value.trim();
+            
+            if(!inputVal) {
+                alert("Vui lòng nhập số điện thoại để thực hiện tra cứu!");
+                return;
+            }
+
+            try {
+                // Fetch dữ liệu với timestamp để tránh cache
+                const response = await fetch(CSV_URL + '&t=' + new Date().getTime());
+                const csvText = await response.text();
+                
+                // Parse CSV
+                const rows = csvText.split('\n').map(row => {
+                    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => {
+                        return cell.replace(/^"|"$/g, '').trim();
+                    });
+                });
+
+                // Tìm kiếm theo cột số điện thoại (cột 0)
+                const data = rows.find(r => r[0] === inputVal);
+
+                if(data) {
+                    const formatVND = (val) => {
+                        if(!val) return "0 VND";
+                        let num = val.replace(/\D/g, '');
+                        return new Intl.NumberFormat('vi-VN').format(num) + " VND";
+                    };
+
+                    // Đổ dữ liệu vào giao diện
+                    document.getElementById('resPhone').innerText = data[0];
+                    document.getElementById('resNameTop').innerText = data[1];
+                    document.getElementById('resNameMain') ? document.getElementById('resNameMain').innerText = data[1] : null;
+                    document.getElementById('resTotal').innerText = formatVND(data[3]);
+                    document.getElementById('resCodeTop').innerText = data[4];
+                    document.getElementById('resSTK').innerText = data[5];
+                    document.getElementById('resBank').innerText = data[6];
+                    document.getElementById('resNote').innerText = data[7]; // Tự động co giãn nhờ CSS
+                    document.getElementById('resStatusTop').innerText = data[8];
+                    document.getElementById('resStatusBottom').innerText = data[8];
+                    document.getElementById('resSigner').innerText = data[9] || "Lãnh đạo bộ";
+                    document.getElementById('resDatePub').innerText = data[10];
+                    document.getElementById('resDonVi').innerText = data[12];
+
+                    // Hiển thị vùng kết quả
+                    const resultArea = document.getElementById('resultArea');
+                    resultArea.style.display = 'block';
+                    
+                    // Cuộn màn hình tới kết quả
+                    window.scrollTo({
+                        top: resultArea.offsetTop - 50,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    alert("Không tìm thấy thông tin hồ sơ cho số điện thoại: " + inputVal);
+                }
+            } catch (error) {
+                console.error("Lỗi:", error);
+                alert("Không tìm thấy thông tin hồ sơ cho số điện thoại.");
+            }
+        }
+        
+        // Cho phép nhấn Enter để tìm kiếm
+        document.getElementById('phoneInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchFromSheets();
+            }
+        });
+    </script>
+</body>
+</html>
