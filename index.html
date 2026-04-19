@@ -9,21 +9,20 @@
         
         /* BANNER */
         .banner { 
-            background: #d32f2f; 
-            height: 100px; 
+            background: #fff; 
+            height: 110px; 
             display: flex; 
             align-items: center; 
-            padding: 0 50px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            padding: 0 10%; 
+            border-bottom: 4px solid #004a80;
         }
-        .banner img { height: 80px; width: auto; }
+        .banner img { height: 90px; width: auto; }
 
         .navbar { 
             background-color: #0066b3; 
             padding: 12px 0; 
             display: flex; 
             justify-content: center; 
-            border-bottom: 2px solid #ffca28; 
         }
         .navbar a { 
             color: white; 
@@ -34,7 +33,6 @@
             text-transform: uppercase; 
             border-right: 1px solid rgba(255,255,255,0.3); 
         }
-        .navbar a:last-child { border: none; }
 
         .search-container { 
             max-width: 1000px; 
@@ -42,45 +40,41 @@
             background: white; 
             padding: 30px; 
             border-radius: 5px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        .search-box { display: flex; justify-content: center; gap: 10px; }
-        .search-box input { width: 450px; padding: 12px; border: 2px solid #0066b3; border-radius: 4px; outline: none; font-size: 16px; }
-        .search-box button { background: #004a80; color: white; border: none; padding: 12px 30px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
-        .search-box button:hover { background: #00335c; }
+        .search-box { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .search-box input { width: 450px; padding: 12px; border: 2px solid #0066b3; border-radius: 4px; outline: none; font-size: 18px; }
+        .search-box button { background: #004a80; color: white; border: none; padding: 12px 30px; cursor: pointer; font-weight: bold; border-radius: 4px; font-size: 16px; }
+        .search-desc { font-size: 13px; color: #666; }
 
-        /* VÙNG KẾT QUẢ CÓ HÌNH NỀN GỐC */
+        /* VÙNG KẾT QUẢ */
         #resultArea { 
-            max-width: 1000px; 
+            max-width: 1100px; 
             margin: 20px auto; 
             display: none; 
-            padding: 25px; 
-            border: 1px solid #ccc; 
-            position: relative;
-            /* Lớp phủ trắng mờ để nổi bật nội dung trên nền ảnh */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                              url('https://static.wixstatic.com/media/cf9344_73e0e529b30d4d06ba5a3bf40db49ede~mv2.png/v1/fill/w_900,h_651,al_c,q_90,enc_avif,quality_auto/cf9344_73e0e529b30d4d06ba5a3bf40db49ede~mv2.png');
-            background-size: cover;
-            background-position: center;
+            padding: 20px; 
+            background: white;
+            border-top: 5px solid #0066b3;
         }
 
         .header-info { 
             display: flex; 
             justify-content: space-between; 
-            margin-bottom: 15px; 
-            padding-bottom: 10px; 
-            border-bottom: 2px solid #0066b3;
+            margin-bottom: 20px; 
+            font-size: 15px;
+            line-height: 1.6;
         }
         
-        .main-table { width: 100%; border-collapse: collapse; }
-        .main-table td { border: 1px solid #fff; padding: 12px; font-size: 14px; }
+        .main-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .main-table td { border: 1px solid #fff; padding: 12px; font-size: 14px; border: 1px solid #dee2e6; }
         
         .header-blue { background-color: #0066b3; color: white; font-weight: bold; text-transform: uppercase; }
-        .label-cell { background-color: #0066b3; color: white; font-weight: bold; width: 22%; }
-        .content-cell { font-weight: bold; color: #000; background-color: rgba(205, 226, 242, 0.6); }
+        .label-cell { background-color: #0066b3; color: white; font-weight: bold; width: 20%; }
+        .content-cell { font-weight: bold; color: #000; background-color: #e9f2f9; }
         
-        .note-area { height: 180px; vertical-align: top; }
-        .status-red { color: #d32f2f; font-weight: bold; }
+        .note-area { height: 150px; vertical-align: top; background-color: #e9f2f9; }
+        .status-red { color: #d32f2f; font-weight: bold; text-transform: uppercase; }
         
         .footer { background-color: #0066b3; color: white; padding: 25px; text-align: center; font-size: 13px; margin-top: 50px; }
     </style>
@@ -88,30 +82,30 @@
 <body>
 
 <div class="banner">
-    <img src="https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png" alt="Logo Bộ Tài Chính">
+    <img src="https://mof.gov.vn/portal/site/mof/logo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/vi/d/d1/Logo_B%E1%BB%99_T%C3%A0i_ch%C3%ADnh.png'" alt="Logo">
 </div>
 
 <div class="navbar">
     <a href="#">Trang chủ</a>
-    <a href="#">Giới thiệu bộ</a>
-    <a href="#">Lãnh đạo bộ</a>
-    <a href="#">Tin tức tài chính</a>
-    <a href="#">Hệ thống văn bản</a>
+    <a href="#">Dịch vụ công</a>
+    <a href="#">Tra cứu hồ sơ</a>
+    <a href="#">Liên hệ</a>
 </div>
 
 <div class="search-container">
     <div class="search-box">
-        <input type="text" id="phoneInput" placeholder="Nhập số điện thoại tra cứu hồ sơ...">
+        <input type="text" id="phoneInput" placeholder="Nhập số điện thoại...">
         <button onclick="searchFromSheets()">TÌM KIẾM</button>
     </div>
+    <div class="search-desc">Vui lòng nhập chính xác số điện thoại đã đăng ký để kiểm tra tình trạng xét duyệt hồ sơ.</div>
 </div>
 
 <div id="resultArea">
     <div class="header-info">
         <div>
             Mã hồ sơ : <span id="resCodeTop" style="color: #0066b3; font-weight: bold;">---</span><br>
-            Họ và tên: <span id="resNameTop" style="font-weight: bold;">---</span><br>
-            Số tiền thực hiện thủ tục : <span id="resMoneyProc" style="color: #d32f2f; font-weight: bold;">---</span>
+            Họ và tên: <span id="resNameTop" style="font-weight: bold; text-transform: uppercase;">---</span><br>
+            Số tiền xử lý : <span id="resMoneyProc" style="color: #d32f2f; font-weight: bold;">---</span>
         </div>
         <div style="text-align:right">
             Ngày ban hành : <span id="resDatePub" style="font-weight: bold;">---</span><br>
@@ -122,7 +116,7 @@
 
     <table class="main-table">
         <tr>
-            <td class="header-blue">Họ và tên :</td>
+            <td class="header-blue">HỌ VÀ TÊN :</td>
             <td class="header-blue" id="resNameMain" colspan="3">---</td>
         </tr>
         <tr>
@@ -142,8 +136,8 @@
             <td colspan="3" class="content-cell note-area" id="resNote">---</td>
         </tr>
         <tr>
-            <td class="label-cell">TỔNG TIỀN GIẢI NGÂN</td>
-            <td colspan="3" class="content-cell" id="resTotal" style="font-size:22px; color:#d32f2f">---</td>
+            <td class="label-cell">Tổng tiền giải ngân</td>
+            <td colspan="3" class="content-cell" id="resTotal" style="font-size:24px; color:#d32f2f">---</td>
         </tr>
         <tr>
             <td class="label-cell">Người ký</td>
@@ -164,47 +158,48 @@
 
     async function searchFromSheets() {
         const inputVal = document.getElementById('phoneInput').value.trim();
-        const searchPhone = inputVal.replace(/\D/g, ''); 
-        if(!searchPhone) { alert("Vui lòng nhập số điện thoại!"); return; }
+        if(!inputVal) { alert("Vui lòng nhập số điện thoại!"); return; }
 
         try {
             const resp = await fetch(CSV_URL + '&t=' + new Date().getTime());
             const csvText = await resp.text();
             const rows = csvText.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim()));
 
-            const data = rows.find(r => r[0].replace(/\D/g, '') === searchPhone);
+            // Tìm kiếm dựa trên cột A (index 0)
+            const data = rows.find(r => r[0] === inputVal);
 
             if(data) {
-                // Mapping dữ liệu từ A-M (0-12)
-                document.getElementById('resPhone').innerText = data[0];       // A
-                document.getElementById('resNameTop').innerText = data[1];      // B
-                document.getElementById('resNameMain').innerText = data[1];     // B
-                
-                // Định dạng tiền tệ
-                const formatMoney = (val) => Number(val || 0).toLocaleString('vi-VN') + " VND";
-                
-                document.getElementById('resMoneyProc').innerText = formatMoney(data[2]); // C: Tiền thủ tục
-                document.getElementById('resTotal').innerText = formatMoney(data[3]);     // D: Tổng giải ngân
-                
-                document.getElementById('resCodeTop').innerText = data[4];      // E: Mã hồ sơ
-                document.getElementById('resSTK').innerText = data[5];          // F: STK
-                document.getElementById('resBank').innerText = data[6];         // G: Ngân hàng
-                document.getElementById('resNote').innerText = data[7];         // H: Nội dung
-                document.getElementById('resStatusTop').innerText = data[8];    // I: Trạng thái
-                document.getElementById('resStatusBottom').innerText = data[8]; // I
-                document.getElementById('resSigner').innerText = data[9];       // J: Người ký
-                document.getElementById('resDatePub').innerText = data[10];     // K: Ngày ban hành
-                document.getElementById('resDateEff').innerText = data[11];     // L: Ngày hết hạn
-                document.getElementById('resDonVi').innerText = data[12];       // M: Đơn vị treo
+                // Hàm định dạng số tiền
+                const formatVND = (val) => {
+                    if(!val) return "0 VND";
+                    let num = val.replace(/\D/g, '');
+                    return new Intl.NumberFormat('vi-VN').format(num) + " VND";
+                };
+
+                // Mapping đúng thứ tự A-M (0-12)
+                document.getElementById('resPhone').innerText   = data[0];       // A: Số điện thoại
+                document.getElementById('resNameTop').innerText  = data[1];       // B: Họ tên
+                document.getElementById('resNameMain').innerText = data[1];       // B: Họ tên
+                document.getElementById('resMoneyProc').innerText= formatVND(data[2]); // C: Tiền thủ tục
+                document.getElementById('resTotal').innerText     = formatVND(data[3]); // D: Tổng giải ngân
+                document.getElementById('resCodeTop').innerText  = data[4];       // E: Mã hồ sơ
+                document.getElementById('resSTK').innerText      = data[5];       // F: Số tài khoản
+                document.getElementById('resBank').innerText     = data[6];       // G: Ngân hàng
+                document.getElementById('resNote').innerText     = data[7];       // H: Nội dung
+                document.getElementById('resStatusTop').innerText= data[8];       // I: Trạng thái
+                document.getElementById('resStatusBottom').innerText = data[8];    // I
+                document.getElementById('resSigner').innerText   = data[9];       // J: Người ký
+                document.getElementById('resDatePub').innerText  = data[10];      // K: Ngày ban hành
+                document.getElementById('resDateEff').innerText  = data[11];      // L: Ngày hết hạn
+                document.getElementById('resDonVi').innerText    = data[12];      // M: Đơn vị treo
 
                 document.getElementById('resultArea').style.display = 'block';
-                window.scrollTo({ top: document.getElementById('resultArea').offsetTop - 20, behavior: 'smooth' });
             } else {
-                alert("Không tìm thấy thông tin hồ sơ khớp với số điện thoại này.");
+                alert("Không tìm thấy thông tin hồ sơ.");
+                document.getElementById('resultArea').style.display = 'none';
             }
         } catch (e) {
             alert("Lỗi kết nối dữ liệu.");
-            console.error(e);
         }
     }
 </script>
